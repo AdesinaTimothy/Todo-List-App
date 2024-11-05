@@ -1,17 +1,35 @@
-import {useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import TodoComponents from "./TodoComponent.jsx"
 
 export default function TodoForm () {
 
     const [todo, setTodo] = useState(" ")
-    const [enteredTodos, setenteredTodos] = useState([])
+    const [enteredTodos, setEnteredTodos] = useState([])
+    const [initialLoad, setInitialLoad] = useState(true)
 
+    //Fetching data from the database: Get and load data from the 
+    // data storage
+
+    useEffect (() => {
+        const storedTodos = localStorage.getItem("ReactTodos")
+        if (storedTodos) {
+            setEnteredTodos(JSON.parse(storedTodos))
+
+            setInitialLoad(false)
+        }
+    }, [])
+
+
+    //Saved to local storage
     useEffect(() => {
-        localStorage.setItem("ReactTodos", JSON.stringify(enteredTodos))
-    } , [enteredTodos])
+        if (!initialLoad) {
+            localStorage.setItem("ReactTodos", JSON.stringify(enteredTodos))
+        }
+    }, [enteredTodos])
 
     const submissionManager = (e) => {
         e.preventDefault()
-        setenteredTodos([...enteredTodos, todo])
+        setEnteredTodos([...enteredTodos, todo])
         setTodo("")
     }
    
@@ -37,6 +55,15 @@ export default function TodoForm () {
                     <button type="submit">Add Todo</button>
                 </div>
             </form>
+
+            {/* //Render data from the UI */}
+
+            {enteredTodos.map((todoItem, index) => (
+                <TodoComponents 
+                todoItem = {todoItem}
+                key = {index}
+                />
+            ))}
         </div>
     )
 }
