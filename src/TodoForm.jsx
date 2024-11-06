@@ -6,6 +6,7 @@ export default function TodoForm () {
     const [todo, setTodo] = useState(" ")
     const [enteredTodos, setEnteredTodos] = useState([])
     const [initialLoad, setInitialLoad] = useState(true)
+    const [editIndicator, setEditIndicator] = useState(null)
 
     //Fetching data from the database: Get and load data from the 
     // data storage
@@ -37,7 +38,8 @@ export default function TodoForm () {
     //Edit todo function 
     const editTodo = (index) => {
         setTodo(enteredTodos[index])
-        console.log(testing)
+        setEditIndicator(index)
+        console.log(editIndicator)
     }
 
     return (
