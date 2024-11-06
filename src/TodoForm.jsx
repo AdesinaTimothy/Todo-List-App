@@ -30,7 +30,16 @@ export default function TodoForm () {
 
     const submissionManager = (e) => {
         e.preventDefault()
-        setEnteredTodos([...enteredTodos, todo])
+        if (editIndicator !== null) {
+            const allTodos = [...enteredTodos]
+            allTodos[editIndicator] = todo 
+            setEnteredTodos(allTodos)
+            setEditIndicator(null)
+        } else {
+            setEnteredTodos([...enteredTodos, todo])
+        }
+
+
         setTodo("")
     }
    
@@ -39,7 +48,14 @@ export default function TodoForm () {
     const editTodo = (index) => {
         setTodo(enteredTodos[index])
         setEditIndicator(index)
-        console.log(editIndicator)
+        // console.log(editIndicator)
+    }
+
+    const deleteTodo = (index) => {
+        const filteredTodos = enteredTodos.filter((_, ind) => 
+           ind !== index
+        )
+        setEnteredTodos(filteredTodos)
     }
 
     return (
@@ -73,7 +89,7 @@ export default function TodoForm () {
                 />
 
                 <button onClick={(e) => editTodo(index)}>Edit</button>
-                <button>Delete</button>
+                <button onClick={(e) => deleteTodo(index)}>Delete</button>
                 </div>
             ))}
         </div>
