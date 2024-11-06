@@ -34,7 +34,11 @@ export default function TodoForm () {
     }
    
 
-    console.log(enteredTodos)
+    //Edit todo function 
+    const editTodo = (index) => {
+        setTodo(enteredTodos[index])
+        console.log(testing)
+    }
 
     return (
         <div className="form-container">
@@ -59,10 +63,16 @@ export default function TodoForm () {
             {/* //Render data from the UI */}
 
             {enteredTodos.map((todoItem, index) => (
+                <div key = {index} style = {{display: "flex", justifyContent
+                    :"space-between"
+                }}>
                 <TodoComponents 
                 todoItem = {todoItem}
-                key = {index}
                 />
+
+                <button onClick={(e) => editTodo(index)}>Edit</button>
+                <button>Delete</button>
+                </div>
             ))}
         </div>
     )
